@@ -1,20 +1,34 @@
 #!/usr/bin/env node
-import * as cdk from 'aws-cdk-lib';
-import { LambdaMcpStack } from '../lib/lambda-mcp-stack';
+/**
+ * Main entry point for the CDK application.
+ *
+ * This file is the starting point of the AWS CDK deployment process.
+ * It loads environment variables from a .env file and initializes the CDK app
+ * with our Lambda MCP stack.
+ */
 
-const app = new cdk.App();
-new LambdaMcpStack(app, 'LambdaMcpStack', {
-  /* If you don't specify 'env', this stack will be environment-agnostic.
-   * Account/Region-dependent features and context lookups will not work,
-   * but a single synthesized template can be deployed anywhere. */
+// Load environment variables from .env file
+import "dotenv/config";
 
-  /* Uncomment the next line to specialize this stack for the AWS Account
-   * and Region that are implied by the current CLI configuration. */
-  // env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+// Import our stack definition and the CDK App class
+import { LambdaMcpStack } from "../lib/lambda-mcp-stack";
+import { App } from "aws-cdk-lib";
 
-  /* Uncomment the next line if you know exactly what Account and Region you
-   * want to deploy the stack to. */
-  // env: { account: '123456789012', region: 'us-east-1' },
+// Create a new CDK application
+const app = new App();
 
-  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+// Instantiate our stack with the application
+new LambdaMcpStack(app, "LambdaMcpStack", {
+  /*
+   * Environment configuration for the stack.
+   * The account and region are loaded from environment variables.
+   * These should be defined in the .env file:
+   * - CDK_ACCOUNT: Your AWS account ID
+   * - CDK_REGION: The AWS region to deploy to (e.g., us-east-1)
+   */
+  env: {
+    account: process.env.CDK_ACCOUNT,
+    region: process.env.CDK_REGION,
+  },
+  stackEndpoint: process.env.STACK_ENDPOINT!,
 });
