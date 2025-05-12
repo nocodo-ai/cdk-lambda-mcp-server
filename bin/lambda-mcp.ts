@@ -31,4 +31,5 @@ new LambdaMcpStack(app, "LambdaMcpStack", {
     region: process.env.CDK_REGION,
   },
   stackEndpoint: process.env.STACK_ENDPOINT!,
+  apiKey: process.env.API_KEY!,
 });

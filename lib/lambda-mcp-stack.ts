@@ -40,6 +40,7 @@ import { PassthroughBehavior } from "aws-cdk-lib/aws-apigatewayv2";
 
 export interface LambdaMcpStackProps extends StackProps {
   stackEndpoint: string;
+  apiKey: string;
 }
 
 /**
@@ -64,7 +65,7 @@ export class LambdaMcpStack extends Stack {
       environment: {
         // Setting the API key as an environment variable
         // In a production environment, you would use AWS Secrets Manager instead
-        [API_KEY]: "my-mcp-secret",
+        [API_KEY]: props.apiKey,
       },
       logRetention: RetentionDays.ONE_WEEK, // Keep logs for one week
     });
